@@ -5,6 +5,7 @@
 
 # developer
 /node_modules
+.vscode
 
 ### macOS ###
 # General
