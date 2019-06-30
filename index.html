@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Swish Slider</title>
+  <link rel="stylesheet" href="./styles/required.css">
+  <link rel="stylesheet" href="./styles/theme.css">
+</head>
+
+<body>
+  <div style="max-width: 700px; margin: auto;">
+    <div class="swish">
+      <ul class="swish-list">
+        <li class="swish-list__item">
+          <div style="height: 300px; width: 100%; background: lightcoral" class="swish__item_inner">
+          </div>
+        </li>
+        <li class="swish-list__item">
+          <div style="height: 300px; width: 100%; background: olivedrab" class="swish__item_inner"></div>
+        </li>
+        <li class="swish-list__item">
+          <div style="height: 300px; width: 100%; background: orchid" class="swish__item_inner"></div>
+        </li>
+        <li class="swish-list__item">
+          <div style="height: 300px; width: 100%; background: slategrey" class="swish__item_inner"></div>
+        </li>
+      </ul>
+      <button data-swish-dir="prev">PREV</button>
+      <button data-swish-dir="next">NEXT</button>
+    </div>
+  </div>
+  <script src="./dist/swish.js"></script>
+  <script>
+    swish({
+      selectors: document.querySelectorAll('.swish'),
+      config: {
+        slides: 1,
+        shifted: 0,
+        speed: 0.3,
+        infinity: true,
+        pagination: true,
+        responsive: {
+          800: {
+            slides: 2,
+            infinity: true,
+            pagination: true,
+            shifted: 0,
+          },
+          600: {
+            slides: 1,
+            shifted: 100,
+            infinity: true,
+            pagination: true,
+          }
+        }
+      }
+    })
+
+  </script>
+</body>
+
+</html>

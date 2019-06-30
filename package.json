@@ -1,0 +1,32 @@
+{
+  "name": "swish-slider",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx babel ./src/index.js --watch --out-file ./dist/swish.js",
+    "babel": "npx babel ./src/index.js --out-file ./dist/swish.js",
+    "minify": "minify ./dist/swish.js --out-file ./dist/swish.min.js --mangle.keepClassName",
+    "build": "rm -rf dist && mkdir dist && yarn babel && yarn minify",
+    "lint": "eslint ./src --fix",
+    "pretty": "prettier --write --tab-width 2 'src/**/*.js'"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn lint && yarn pretty"
+    }
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-minify": "^0.5.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "husky": "^2.3.0",
+    "lint-staged": "^8.1.7",
+    "prettier": "^1.17.1",
+    "pretty-quick": "^1.11.0"
+  }
+}

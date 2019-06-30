@@ -1,0 +1,35 @@
+.swish {
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.swish-list {
+  margin: 0;
+  padding: 0;
+  display: block;
+  overflow: hidden;
+  list-style-type: none;
+  will-change: transform;
+  -webkit-tap-highlight-color: transparent;
+  -ms-touch-action: pan-Y;
+  -moz-backface-visibility: hidden;
+  touch-action: manipulation;
+}
+
+.swish-list:before,
+.swish-list:after {
+  content: "";
+  display: table;
+}
+
+.swish-list:after {
+  clear: both;
+}
+
+.swish-list__item {
+  display: block;
+  list-style-type: none;
+  float: left;
+  width: 0;
+}
