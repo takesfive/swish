@@ -9,7 +9,13 @@ Simple slider without dependencies :stuck_out_tongue_winking_eye:
 
 ---
 
-## Quick start :fire:
+## Work example
+
+https://takesfive.github.io/swish/
+
+---
+
+## Quick start :sunglasses:
 
 #### Step 1
 
