@@ -110,6 +110,10 @@ Add in your `<head></head>` required.css or in your css file
   - type: `number`
   - default: `0`
 
+- autoplay
+  - type: `number`
+  - default: `3000` (ms)
+
 ---
 
 ### Example config

@@ -121,17 +121,34 @@ function () {
       container.style.width = "".concat(width, "px");
     }
   }, {
+    key: "autoplay",
+    value: function autoplay() {
+      var _this = this;
+
+      if (this.config.hasOwnProperty('autoplay')) {
+        var tick = function tick() {
+          _this.move({
+            direction: -1
+          });
+
+          _this.autoPlayTimerId = setTimeout(tick, _this.config.autoplay);
+        };
+
+        this.autoPlayTimerId = setTimeout(tick, this.config.autoplay);
+      }
+    }
+  }, {
     key: "activeSetter",
     value: function activeSetter(parentElem) {
-      var _this = this;
+      var _this2 = this;
 
       this.spreadHtmlArrayHelper(parentElem.children).forEach(function (item) {
         item.classList.remove('active');
         item.setAttribute('aria-hidden', true);
       });
       this.arrayFromLengthHelper(this.config.slides).forEach(function (item, idx) {
-        parentElem.children[_this.counter + idx].classList.add('active');
-        parentElem.children[_this.counter + idx].setAttribute('aria-hidden', false);
+        parentElem.children[_this2.counter + idx].classList.add('active');
+        parentElem.children[_this2.counter + idx].setAttribute('aria-hidden', false);
       });
     }
   }, {
@@ -143,7 +160,7 @@ function () {
   }, {
     key: "paginationActiveSetter",
     value: function paginationActiveSetter(parentElem) {
-      var _this2 = this;
+      var _this3 = this;
 
       // TODO fix this.config.slides === 1
       if (this.config.pagination && this.config.slides === 1) {
@@ -153,13 +170,13 @@ function () {
 
         if (this.config.infinity) {
           this.arrayFromLengthHelper(this.config.slides).forEach(function (item, idx) {
-            if (parentElem.children[_this2.counter - _this2.config.slides + idx]) {
-              parentElem.children[_this2.counter - _this2.config.slides + idx].classList.add('active');
+            if (parentElem.children[_this3.counter - _this3.config.slides + idx]) {
+              parentElem.children[_this3.counter - _this3.config.slides + idx].classList.add('active');
             }
           });
         } else {
           this.arrayFromLengthHelper(this.config.slides).forEach(function (item, idx) {
-            parentElem.children[_this2.counter + idx].classList.add('active');
+            parentElem.children[_this3.counter + idx].classList.add('active');
           });
         }
       }
@@ -167,7 +184,7 @@ function () {
   }, {
     key: "pagination",
     value: function pagination() {
-      var _this3 = this;
+      var _this4 = this;
 
       // TODO fix this.config.slides === 1
       if (this.config.pagination && this.config.slides === 1) {
@@ -186,10 +203,10 @@ function () {
         paginationBlock.appendChild(paginationList);
         this.slider.appendChild(paginationBlock);
         this.spreadHtmlArrayHelper(this.slider.querySelectorAll('.swish-pagination__list-item')).forEach(function (item, idx) {
-          if (_this3.config.infinity) {
-            item.addEventListener('click', _this3.handleClickPagination.bind(_this3, idx + 1));
+          if (_this4.config.infinity) {
+            item.addEventListener('click', _this4.handleClickPagination.bind(_this4, idx + 1));
           } else {
-            item.addEventListener('click', _this3.handleClickPagination.bind(_this3, idx));
+            item.addEventListener('click', _this4.handleClickPagination.bind(_this4, idx));
           }
         });
       } else {
@@ -201,25 +218,27 @@ function () {
   }, {
     key: "handleClickPagination",
     value: function handleClickPagination(index) {
+      clearInterval(this.autoPlayTimerId);
       this.counter = index;
       this.move();
+      this.autoplay();
     }
   }, {
     key: "clearClonedItmes",
     value: function clearClonedItmes() {
-      var _this4 = this;
+      var _this5 = this;
 
       this.list = this.slider.querySelector('.swish-list');
       this.spreadHtmlArrayHelper(this.list.children).forEach(function (item) {
         if (item.classList.contains('cloned')) {
-          _this4.list.removeChild(item);
+          _this5.list.removeChild(item);
         }
       });
     }
   }, {
     key: "infinity",
     value: function infinity() {
-      var _this5 = this;
+      var _this6 = this;
 
       this.list = this.slider.querySelector('.swish-list');
       this.sizeItem = this.getSize(this.slider.offsetWidth, this.config.slides, this.config.shifted);
@@ -231,7 +250,7 @@ function () {
       }).forEach(function (node) {
         node.classList.add('cloned');
 
-        _this5.list.insertAdjacentElement('beforeEnd', node);
+        _this6.list.insertAdjacentElement('beforeEnd', node);
       });
       this.spreadHtmlArrayHelper(this.list.children).filter(function (el) {
         return !el.classList.contains('cloned');
@@ -240,13 +259,13 @@ function () {
       }).reverse().forEach(function (node) {
         node.classList.add('cloned');
 
-        _this5.list.insertAdjacentElement('afterBegin', node);
+        _this6.list.insertAdjacentElement('afterBegin', node);
       });
     }
   }, {
     key: "move",
     value: function move() {
-      var _this6 = this;
+      var _this7 = this;
 
       var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           _ref$direction = _ref.direction,
@@ -263,11 +282,11 @@ function () {
           this.counter = this.itemsLength - this.config.slides - this.config.slides;
           this.preventMove = true;
           setTimeout(function () {
-            _this6.list.style.transition = 'transform 0s ease 0s';
-            _this6.currentTransform = -(_this6.sizeItem * (_this6.itemsLength - _this6.config.slides - _this6.config.slides)) + _this6.config.shifted * _this6.config.slides / 2;
-            _this6.list.style[_this6.transformCss] = "translate3d(".concat(_this6.currentTransform, "px, 0, 0)");
-            _this6.counter = _this6.itemsLength - _this6.config.slides - _this6.config.slides;
-            _this6.preventMove = false;
+            _this7.list.style.transition = 'transform 0s ease 0s';
+            _this7.currentTransform = -(_this7.sizeItem * (_this7.itemsLength - _this7.config.slides - _this7.config.slides)) + _this7.config.shifted * _this7.config.slides / 2;
+            _this7.list.style[_this7.transformCss] = "translate3d(".concat(_this7.currentTransform, "px, 0, 0)");
+            _this7.counter = _this7.itemsLength - _this7.config.slides - _this7.config.slides;
+            _this7.preventMove = false;
           }, this.speed);
         } else if (this.counter >= this.itemsLength - this.config.slides) {
           this.list.style.transition = "transform ".concat(this.speed, "ms ease 0s");
@@ -276,11 +295,11 @@ function () {
           this.counter = this.config.slides;
           this.preventMove = true;
           setTimeout(function () {
-            _this6.list.style.transition = 'transform 0s ease 0s';
-            _this6.currentTransform = -(_this6.sizeItem * _this6.config.slides) + _this6.config.shifted * _this6.config.slides / 2;
-            _this6.list.style[_this6.transformCss] = "translate3d(".concat(_this6.currentTransform, "px, 0, 0)");
-            _this6.counter = _this6.config.slides;
-            _this6.preventMove = false;
+            _this7.list.style.transition = 'transform 0s ease 0s';
+            _this7.currentTransform = -(_this7.sizeItem * _this7.config.slides) + _this7.config.shifted * _this7.config.slides / 2;
+            _this7.list.style[_this7.transformCss] = "translate3d(".concat(_this7.currentTransform, "px, 0, 0)");
+            _this7.counter = _this7.config.slides;
+            _this7.preventMove = false;
           }, this.speed);
         } else {
           this.preventMove = true;
@@ -288,7 +307,7 @@ function () {
           this.currentTransform = -(this.sizeItem * this.counter) + this.config.shifted * this.config.slides / 2;
           this.list.style[this.transformCss] = "translate3d(".concat(this.currentTransform, "px, 0, 0)");
           setTimeout(function () {
-            _this6.preventMove = false;
+            _this7.preventMove = false;
           }, this.speed);
         }
       } else {
@@ -306,7 +325,7 @@ function () {
 
         this.list.style[this.transformCss] = "translate3d(".concat(this.currentTransform, "px, 0, 0)");
         setTimeout(function () {
-          _this6.preventMove = false;
+          _this7.preventMove = false;
         }, this.speed);
       }
 
@@ -330,6 +349,7 @@ function () {
     key: "handleConrolsClick",
     value: function handleConrolsClick(e) {
       if (this.preventMove) return;
+      clearTimeout(this.autoPlayTimerId);
 
       switch (e.currentTarget.getAttribute('data-swish-dir')) {
         case 'next':
@@ -344,12 +364,15 @@ function () {
           });
           break;
       }
+
+      this.autoplay();
     }
   }, {
     key: "handleTouchStart",
     value: function handleTouchStart(e) {
       if (this.preventMove) return;
       e.stopPropagation();
+      clearTimeout(this.autoPlayTimerId);
       this.touch.isTouch = true;
       this.delayAndDir = 0;
       this.list.style.transition = 'transform 0s ease 0s';
@@ -360,6 +383,7 @@ function () {
     key: "handleTouchMove",
     value: function handleTouchMove(e) {
       e.stopPropagation();
+      clearTimeout(this.autoPlayTimerId);
       this.touch.moveX = e.touches[0].clientX;
       this.touch.moveY = e.touches[0].clientY;
 
@@ -394,11 +418,13 @@ function () {
       });
       this.touch.isTouch = false;
       this.touch.isTouchAction = null;
+      this.autoplay();
     }
   }, {
     key: "handleMousedown",
     value: function handleMousedown(e) {
       if (this.preventMove) return;
+      clearTimeout(this.autoPlayTimerId);
       var coords = this.getCoords(this.list);
       e.preventDefault();
       e.stopPropagation();
@@ -438,6 +464,8 @@ function () {
       this.isGrab(false);
       this.list.style.transition = "transform ".concat(this.speed, "ms ease 0s");
       this.drag.move = false;
+      clearTimeout(this.autoPlayTimerId);
+      this.autoplay();
     }
   }, {
     key: "handleMouseleave",
@@ -464,7 +492,7 @@ function () {
   }, {
     key: "updateAfterResize",
     value: function updateAfterResize() {
-      var _this7 = this;
+      var _this8 = this;
 
       var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
           _ref2$isCreated = _ref2.isCreated,
@@ -480,7 +508,7 @@ function () {
         if (this.responsivePoints.length > 0) {
           var currentIndex = this.responsivePoints.indexOf(point[0]);
           var values = Object.keys(this.config.responsive).map(function (key) {
-            return _this7.config.responsive[key];
+            return _this8.config.responsive[key];
           });
           this.updateConfig(values[currentIndex]);
         }
@@ -497,7 +525,7 @@ function () {
   }, {
     key: "addEvents",
     value: function addEvents() {
-      var _this8 = this;
+      var _this9 = this;
 
       window.addEventListener('resize', this.handleResize.bind(this));
       this.list.addEventListener('mousedown', this.handleMousedown.bind(this));
@@ -508,7 +536,7 @@ function () {
       this.list.addEventListener('touchmove', this.handleTouchMove.bind(this));
       this.list.addEventListener('touchend', this.handleTouchEnd.bind(this));
       this.spreadHtmlArrayHelper(this.controls).forEach(function (control) {
-        control.addEventListener('click', _this8.handleConrolsClick.bind(_this8));
+        control.addEventListener('click', _this9.handleConrolsClick.bind(_this9));
       });
     }
   }, {
@@ -531,6 +559,10 @@ function () {
           this.config.infinity = true;
           this.counter = this.config.slides;
         }
+      }
+
+      if (this.config.hasOwnProperty('autoplay')) {
+        this.autoplay();
       }
 
       if (this.config.infinity) this.infinity();else this.clearClonedItmes();

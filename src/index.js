@@ -97,6 +97,16 @@ class Swish {
     container.style.width = `${width}px`
   }
 
+  autoplay() {
+    if (this.config.hasOwnProperty('autoplay')) {
+      let tick = () => {
+        this.move({ direction: -1 })
+        this.autoPlayTimerId = setTimeout(tick, this.config.autoplay)
+      }
+      this.autoPlayTimerId = setTimeout(tick, this.config.autoplay)
+    }
+  }
+
   activeSetter(parentElem) {
     this.spreadHtmlArrayHelper(parentElem.children).forEach(item => {
       item.classList.remove('active')
@@ -164,8 +174,10 @@ class Swish {
   }
 
   handleClickPagination(index) {
+    clearInterval(this.autoPlayTimerId)
     this.counter = index
     this.move()
+    this.autoplay()
   }
 
   clearClonedItmes() {
@@ -280,6 +292,7 @@ class Swish {
 
   handleConrolsClick(e) {
     if (this.preventMove) return
+    clearTimeout(this.autoPlayTimerId)
     switch (e.currentTarget.getAttribute('data-swish-dir')) {
       case 'next':
         this.move({ direction: -1 })
@@ -288,11 +301,13 @@ class Swish {
         this.move({ direction: 1 })
         break
     }
+    this.autoplay()
   }
 
   handleTouchStart(e) {
     if (this.preventMove) return
     e.stopPropagation()
+    clearTimeout(this.autoPlayTimerId)
     this.touch.isTouch = true
     this.delayAndDir = 0
     this.list.style.transition = 'transform 0s ease 0s'
@@ -302,6 +317,7 @@ class Swish {
 
   handleTouchMove(e) {
     e.stopPropagation()
+    clearTimeout(this.autoPlayTimerId)
     this.touch.moveX = e.touches[0].clientX
     this.touch.moveY = e.touches[0].clientY
     if (this.touch.isTouchAction === null) {
@@ -333,10 +349,12 @@ class Swish {
     else this.move({ direction: 0 })
     this.touch.isTouch = false
     this.touch.isTouchAction = null
+    this.autoplay()
   }
 
   handleMousedown(e) {
     if (this.preventMove) return
+    clearTimeout(this.autoPlayTimerId)
     let coords = this.getCoords(this.list)
     e.preventDefault()
     e.stopPropagation()
@@ -369,6 +387,8 @@ class Swish {
     this.isGrab(false)
     this.list.style.transition = `transform ${this.speed}ms ease 0s`
     this.drag.move = false
+    clearTimeout(this.autoPlayTimerId)
+    this.autoplay()
   }
 
   handleMouseleave() {
@@ -449,6 +469,10 @@ class Swish {
         this.config.infinity = true
         this.counter = this.config.slides
       }
+    }
+
+    if (this.config.hasOwnProperty('autoplay')) {
+      this.autoplay()
     }
 
     if (this.config.infinity) this.infinity()

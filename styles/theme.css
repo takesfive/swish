@@ -102,14 +102,28 @@
   }
 
   .swish-list__item {
-    padding: 0 5px;
+    /* padding: 0 5px; */
   }
 
   .swish-list__item:last-child {
-    padding-right: 0
+    /* padding-right: 0 */
   }
 
   .swish-list__item:first-child {
-    padding-left: 0
+    /* padding-left: 0 */
   }
+}
+
+body {
+  padding: 50px 0 0;
+}
+
+main {
+  padding: 100px 0;
+}
+
+main section:nth-child(even) {
+  background-color: rgb(223, 223, 223);
+  padding: 100px 0;
+  margin: 100px 0;
 }
