@@ -94,6 +94,36 @@
         </div>
       </div>
     </section>
+    <section>
+      <div style="max-width: 700px; margin: auto;">
+        <h2 style="font-family: sans-serif; margin: 0 0 10px;">Example 4</h2>
+        <div class="swish swish-example-4">
+          <ul class="swish-list">
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: lightcoral" class="swish__item_inner">
+              </div>
+            </li>
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: olivedrab" class="swish__item_inner"></div>
+            </li>
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: orchid" class="swish__item_inner"></div>
+            </li>
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: slategrey" class="swish__item_inner"></div>
+            </li>
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: cornflowerblue" class="swish__item_inner"></div>
+            </li>
+            <li class="swish-list__item">
+              <div style="height: 300px; width: 100%; background: orangered" class="swish__item_inner"></div>
+            </li>
+          </ul>
+          <button data-swish-dir="prev">PREV</button>
+          <button data-swish-dir="next">NEXT</button>
+        </div>
+      </div>
+    </section>
   </main>
 
   <script src="./dist/swish.js"></script>
@@ -126,6 +156,16 @@
       selectors: document.querySelectorAll('.swish-example-3'),
       config: {
         slides: 1,
+        shifted: 100,
+        speed: 0.3,
+        pagination: true,
+      }
+    })
+    swish({
+      selectors: document.querySelectorAll('.swish-example-4'),
+      config: {
+        slides: 1,
+        infinity: true,
         shifted: 100,
         speed: 0.3,
         pagination: true,
